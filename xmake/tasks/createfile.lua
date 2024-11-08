@@ -25,14 +25,14 @@ on_run(function()
     local files = {}
 
     if not option.get("noh") then
-        table.insert(files, { TargetPath = path.join("Include/ProjectName", filePath) .. ".h", Template = headerTemplate })
+        table.insert(files, { TargetPath = path.join("Include/PGraphics", filePath) .. ".h", Template = headerTemplate })
     end
 
     if not option.get("noc") then
         if not option.get("noh") then
-            table.insert(files, { TargetPath = path.join("Source", "ProjectName", filePath) .. ".c", Template = sourceTemplateWithHeader })
+            table.insert(files, { TargetPath = path.join("Source", "PGraphics", filePath) .. ".c", Template = sourceTemplateWithHeader })
         else
-            table.insert(files, { TargetPath = path.join("Source", "ProjectName", filePath) .. ".c", Template = sourceTemplateWithoutHeader })
+            table.insert(files, { TargetPath = path.join("Source", "PGraphics", filePath) .. ".c", Template = sourceTemplateWithoutHeader })
         end
     end
 
@@ -40,7 +40,7 @@ on_run(function()
         CLASS_NAME = className,
         CLASS_PATH = filePath,
         COPYRIGHT = os.date("%Y") .. [[ Jean "Pixfri" Letessier ]],
-        HEADER_GUARD = "PN_" .. filePath:gsub("[/\\]", "_"):upper() .. "_H"
+        HEADER_GUARD = "PG_" .. filePath:gsub("[/\\]", "_"):upper() .. "_H"
     }
 
     for _, file in pairs(files) do
@@ -59,27 +59,30 @@ end)
 
 headerTemplate = [[
 // Copyright (C) %COPYRIGHT%
-// This file is part of ProjectName.
+// This file is part of PGraphics.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
 #pragma once
 
 #ifndef %HEADER_GUARD%
-#define %HEADER_GUARD%"
+#define %HEADER_GUARD%
+
+#include <PGraphics/Prerequisites.h>
+#include <PGraphics/Export.h>
 
 #endif // %HEADER_GUARD%
 ]]
 
 sourceTemplateWithHeader = [[
 // Copyright (C) %COPYRIGHT%
-// This file is part of ProjectName.
+// This file is part of PGraphics.
 // For conditions of distribution and use, see copyright notice in LICENSE
 
-#include "ProjectName/%CLASS_PATH%.h"
+#include <PGraphics/%CLASS_PATH%.h>
 ]]
 
 sourceTemplateWithoutHeader = [[
 // Copyright (C) %COPYRIGHT%
-// This file is part of ProjectName.
+// This file is part of PGraphics.
 // For conditions of distribution and use, see copyright notice in LICENSE
 ]]
